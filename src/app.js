@@ -32,11 +32,12 @@ function show(key) {
 export function initApp() {
   view = document.querySelector('#view')
   console.log('[init] view ok?', !!view)
-  document.addEventListener('click', (e) => {
-    const tab = e.target.closest('[role="tab"] [data-game] ')
-    if (!tab) return
-    console.log('[click tab]', btn.dataset.game)
-    show(tab.dataset.game)
+
+  document.querySelectorAll('[role="tab"][data-game]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      console.log('[click tab]', btn.dataset.game)
+      show(btn.dataset.game)
+    })
   })
   show('game1')
 }
