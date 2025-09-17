@@ -5,6 +5,7 @@ let board, currentPlayer, isFinished, winner
 let contenedor = null
 let estadoElJuego = null
 let tableroEl = null
+let onClick = null
 
 function initState() {
   board = Array(9).fill(null)
@@ -26,6 +27,30 @@ function render() {
   tableroEl.querySelectorAll('.cell').forEach((btn, i) => {
     btn.textContent = board[i] ?? ''
   })
+}
+
+function checkWinner(board) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ]
+
+  for (const [a, b, c] of lines) {
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return board[a]
+    }
+  }
+  return null
+}
+
+function isDraw(board) {
+  return board.every((valor) => valor !== null)
 }
 
 export default {
@@ -52,12 +77,44 @@ export default {
     tableroEl = contenedor.querySelector('.board')
     initState()
     render(contenedor)
-  },
+
+    onClick = (e) => {
+      const resetBtn= e.target.closest('.reset')
+      if (resetBtn) { reset () ; return }
+      }
+
+      const cell = e.target.closest('.cell')
+      if (!cell) return
+
+      if (isFinished) return
+      const i = Number(cell.dataset.i)
+      if (board[i]) return
+
+      board[i] = currentPlayer
+      
+      const w = checkWinner(board)  
+      if (w) { winner = w; 
+        isFinished = true
+    } 
+      else if (isDraw(board)) { 
+        winner = 'draw'; 
+        isFinished = true }
+
+      else { currentPlayer = currentPlayer === 'X' ? 'O' : 'X' }
+
+      render()
+    }
+    
+    contenedor.addEventListener('click', onClick)
+
+
+
   unmount() {
     console.log('desmontando el juego del tres en raya')
-  },
+  }
   reset() {
     initState()
     render()
   }
 }
+
