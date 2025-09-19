@@ -29,6 +29,11 @@ function render() {
   })
 }
 
+function reset() {
+  initState()
+  render()
+}
+
 function checkWinner(board) {
   const lines = [
     [0, 1, 2],
@@ -76,11 +81,12 @@ export default {
     estadoElJuego = contenedor.querySelector('.status')
     tableroEl = contenedor.querySelector('.board')
     initState()
-    render(contenedor)
-
+    render()
     onClick = (e) => {
-      const resetBtn= e.target.closest('.reset')
-      if (resetBtn) { reset () ; return }
+      const resetBtn = e.target.closest('.reset')
+      if (resetBtn) {
+        reset()
+        return
       }
 
       const cell = e.target.closest('.cell')
@@ -91,30 +97,37 @@ export default {
       if (board[i]) return
 
       board[i] = currentPlayer
-      
-      const w = checkWinner(board)  
-      if (w) { winner = w; 
-        isFinished = true
-    } 
-      else if (isDraw(board)) { 
-        winner = 'draw'; 
-        isFinished = true }
 
-      else { currentPlayer = currentPlayer === 'X' ? 'O' : 'X' }
+      const w = checkWinner(board)
+      if (w) {
+        winner = w
+        isFinished = true
+      } else if (isDraw(board)) {
+        winner = 'draw'
+        isFinished = true
+      } else {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
+      }
 
       render()
     }
-    
+
     contenedor.addEventListener('click', onClick)
-
-
+  },
 
   unmount() {
     console.log('desmontando el juego del tres en raya')
-  }
+    if (contenedor && onClick) {
+      contenedor.removeEventListener('click', onClick)
+    }
+    onClick = null
+
+    contenedor = null
+    estadoElJuego = null
+    tableroEl = null
+  },
   reset() {
     initState()
     render()
   }
 }
-
