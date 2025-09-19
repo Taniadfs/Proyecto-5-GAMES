@@ -1,0 +1,37 @@
+.tictactoe {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+}
+
+.tictactoe .board {
+  --size: min(70vmin, 420px);
+  width: var(--size);
+  height: var(--size);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.tictactoe .cell {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.2rem, 6vmin, 2.2rem);
+  background: #efefef;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.tictactoe .reset {
+  margin-top: 8px;
+}
+
+@media (max-height: 700px) {
+  .tictactoe .board {
+    --size: min(58vmin, 360px);
+  }
+  .tictactoe .reset {
+    font-size: 0.9rem;
+  }
+}
