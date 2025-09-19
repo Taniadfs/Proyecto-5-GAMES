@@ -7,7 +7,7 @@ body {
 }
 
 body {
-  margin: 50px;
+  margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
     sans-serif;
   background: #fff;
@@ -15,9 +15,9 @@ body {
 }
 
 .page {
-  min-height: 100dvh;
-  display: grid;
-  grid-template-rows: auto 1fr;
+  display: flex;
+  min-width: 360px;
+  flex-shrink: 0;
 }
 
 header {
@@ -60,4 +60,13 @@ nav.tabs {
 nav.tabs [role='tab'] {
   flex: 0 1 auto;
   white-space: nowrap;
+}
+@media (max-width: 480px) {
+  nav.tabs {
+    gap: 6px;
+  }
+  nav.tabs [role='tab'] {
+    padding: 0.45rem 0.8rem;
+    font-size: clamp(0.85rem, 3.2vw, 1rem);
+  }
 }

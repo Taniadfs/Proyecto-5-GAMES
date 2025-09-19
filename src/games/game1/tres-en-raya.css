@@ -5,9 +5,7 @@
 }
 
 .tictactoe .board {
-  --size: min(70vmin, 420px);
-  width: var(--size);
-  height: var(--size);
+  size: min(70vmin, 420px);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 10px;
@@ -29,7 +27,7 @@
 
 @media (max-height: 700px) {
   .tictactoe .board {
-    --size: min(58vmin, 360px);
+    size: min(58vmin, 360px);
   }
   .tictactoe .reset {
     font-size: 0.9rem;
