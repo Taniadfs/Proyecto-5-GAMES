@@ -5,29 +5,39 @@
 }
 
 .tictactoe .board {
-  size: min(70vmin, 420px);
+  size: 30rem;
+  inline-size: min(100%, 30rem);
+  aspect-ratio: 1 / 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 10px;
 }
 
 .tictactoe .cell {
-  aspect-ratio: 1 / 1;
+  min-width: 6rem;
+  min-height: 0;
+  padding: 0;
   display: grid;
   place-items: center;
-  font-size: clamp(1.2rem, 6vmin, 2.2rem);
+  font-size: 2rem;
   background: #efefef;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
 }
 
+.tictactoe .cell:focus {
+  outline: 2px solid;
+  outline-offset: 2px;
+  border-color: #e5e7eb; /* mantiene el borde fino */
+}
 .tictactoe .reset {
   margin-top: 8px;
 }
 
 @media (max-height: 700px) {
   .tictactoe .board {
-    size: min(58vmin, 360px);
+    size: min(22rem);
   }
   .tictactoe .reset {
     font-size: 0.9rem;

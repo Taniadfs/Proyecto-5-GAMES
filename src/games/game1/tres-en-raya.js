@@ -1,4 +1,5 @@
 import './tres-en-raya.css'
+import { loadScoreboard, saveScoreboard } from '../../lib/scoreboard'
 
 let board, currentPlayer, isFinished, winner
 
