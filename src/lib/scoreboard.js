@@ -1,6 +1,8 @@
 const KEY = 'games.scoreboard.v1'
 
-export function loadScoreboard() {
+export const scoreboard = loadScoreboard()
+
+function loadScoreboard() {
   try {
     const raw = localStorage.getItem(KEY)
     return raw ? JSON.parse(raw) : {}
@@ -9,6 +11,6 @@ export function loadScoreboard() {
   }
 }
 
-export function saveScoreboard(data) {
-  localStorage.setItem(KEY, JSON.stringify(data))
+export function saveScoreboard() {
+  localStorage.setItem(KEY, JSON.stringify(scoreboard))
 }
