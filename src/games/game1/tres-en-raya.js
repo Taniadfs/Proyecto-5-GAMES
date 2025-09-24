@@ -1,4 +1,5 @@
 import './tres-en-raya.css'
+import { getTTT, incrementTTT } from '../../lib/scoreboard.js'
 
 let board, currentPlayer, isFinished, winner
 
@@ -6,6 +7,7 @@ let contenedor = null
 let estadoElJuego = null
 let tableroEl = null
 let onClick = null
+let marcadorEl = null
 
 function initState() {
   board = Array(9).fill(null)
@@ -73,6 +75,7 @@ export default {
       <section class="game tictactoe">
       <h2>Tres en raya</h2>
       <p class="status" aria-live="polite"></p>
+      <p class="scoreboard" aria-live="polite"></p>
       <div class="board">${cells}</div>
       <button class="reset" type="button">Reiniciar</button>
       </section>
@@ -80,6 +83,7 @@ export default {
 
     estadoElJuego = contenedor.querySelector('.status')
     tableroEl = contenedor.querySelector('.board')
+    marcadorEl = contenedor.querySelector('.scoreboard')
     initState()
     render()
     onClick = (e) => {
