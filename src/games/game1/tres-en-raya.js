@@ -1,5 +1,4 @@
 import './tres-en-raya.css'
-import { scoreboard, saveScoreboard } from '../../lib/scoreboard.js'
 
 let board, currentPlayer, isFinished, winner
 
@@ -57,10 +56,6 @@ function checkWinner(board) {
 
 function isDraw(board) {
   return board.every((valor) => valor !== null)
-}
-
-function ensureTTT() {
-  return (scoreboard.tictactoe ??= { X: 0, O: 0, draw: 0 })
 }
 
 export default {
