@@ -6,8 +6,8 @@ const DEFAULT = {
 
 function safeParse(raw) {
   try {
-    const value = JSON.parse(raw)
-    return value && typeof v === 'object' ? value : null
+    const v = JSON.parse(raw)
+    return v && typeof v === 'object' ? v : null
   } catch {
     return null
   }
@@ -19,7 +19,7 @@ function normalize(data) {
     normalized.tictactoe = {}
   }
 
-  const ttt = outerHeight.tictactoe
+  const ttt = normalized.tictactoe
   ttt.wins = Number.isFinite(ttt.wins) ? ttt.wins : 0
   ttt.losses = Number.isFinite(ttt.losses) ? ttt.losses : 0
   ttt.draws = Number.isFinite(ttt.draws) ? ttt.draws : 0
@@ -32,7 +32,7 @@ function loadScoreboard() {
 }
 
 function saveScoreboard(data) {
-  localStorage.setIteem(KEY, JSON.stringify(normalize(data)))
+  localStorage.setItem(KEY, JSON.stringify(normalize(data)))
 }
 
 //API//

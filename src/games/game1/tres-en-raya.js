@@ -16,6 +16,12 @@ function initState() {
   winner = null
 }
 
+function renderScoreboard() {
+  if (!marcadorEl) return
+  const { wins, losses, draws } = getTTT()
+  marcadorEl.textContent = `Victorias: ${wins} | Derrotas: ${losses} | Empates: ${draws}`
+}
+
 function render() {
   if (!contenedor) return
 
@@ -84,8 +90,10 @@ export default {
     estadoElJuego = contenedor.querySelector('.status')
     tableroEl = contenedor.querySelector('.board')
     marcadorEl = contenedor.querySelector('.scoreboard')
+
     initState()
     render()
+    renderScoreboard()
     onClick = (e) => {
       const resetBtn = e.target.closest('.reset')
       if (resetBtn) {
@@ -106,14 +114,17 @@ export default {
       if (w) {
         winner = w
         isFinished = true
+        incrementTTT(w === 'X' ? 'wins' : 'losses')
       } else if (isDraw(board)) {
         winner = 'draw'
         isFinished = true
+        incrementTTT('draws')
       } else {
         currentPlayer = currentPlayer === 'X' ? 'O' : 'X'
       }
 
       render()
+      renderScoreboard()
     }
 
     contenedor.addEventListener('click', onClick)
@@ -133,5 +144,6 @@ export default {
   reset() {
     initState()
     render()
+    renderScoreboard()
   }
 }
