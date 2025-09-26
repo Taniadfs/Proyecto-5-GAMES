@@ -1,4 +1,5 @@
-import './game2.css'
+import './memory.css'
+import { getMemory, incrementMemory } from '../../lib/scoreboard.js'
 
 export default {
   mount(container) {
