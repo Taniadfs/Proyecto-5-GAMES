@@ -131,7 +131,6 @@ export default {
   },
 
   unmount() {
-    console.log('desmontando el juego del tres en raya')
     if (contenedor && onClick) {
       contenedor.removeEventListener('click', onClick)
     }
