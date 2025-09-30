@@ -1,5 +1,3 @@
-import { normalizePath } from 'vite'
-
 const KEY = 'games.scoreboard.v1'
 
 const DEFAULT = {
