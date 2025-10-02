@@ -1,14 +1,15 @@
 import './memory.css'
 import { getMemory, incrementMemory } from '../../lib/scoreboard.js'
 
-
-
 let deck = []
 let firstCard = null
 let lockBoard = false
 let matches = 0
 let currentPlayer = 1
 let score = { p1: 0, p2: 0 }
+let onCardClick = null
+let contenedor = null
+let gameReset = null
 
 function suffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -23,27 +24,11 @@ function createDeck(pairs = 6) {
   return suffle([...emojis, ...emojis])
 }
 
-function handleCardClick(e) {
-  const card = e.target
-  if (lockBoard || card === firstCard || !card.classList.contains('card')) return
-
-  card.textContent = deck[card.dataset.index]
-  card.classList.add('flipped')
-
-  if (!firstCard) {
-    firstCard = card
-  } else {
-    lockBoard = true
-  const firstEmoji = deck[firstCard.dataset.index]
-  const secondEmoji = deck[card.dataset.index]
-
-  } if (firstEmoji === secondEmoji)  return{
-    matches
-  } else {
-
-}
 export default {
   mount(container) {
+    contenedor = container
+    gameReset = this
+
     deck = createDeck()
     const cardsHTML = deck
       .map(
@@ -53,7 +38,7 @@ export default {
           }">?</button>`
       )
       .join('')
-    container.innerHTML = `<section class="game">
+    container.innerHTML = `<section class="memory">
     <h2>Memory</h2>
     <div class="scoreboard">
     <p>Jugador 1: <span id="score-p1">${score.p1}</span> | Jugador 2: <span id="score-p2">${score.p2}</span></p>
@@ -62,16 +47,89 @@ export default {
    <div class="board">${cardsHTML}</div>
     </section>`
 
-   
+    onCardClick = (e) => {
+      const card = e.target
+      if (lockBoard || card === firstCard || !card.classList.contains('card'))
+        return
+
+      card.textContent = deck[card.dataset.index]
+      card.classList.add('flipped')
+
+      if (!firstCard) {
+        firstCard = card
+      } else {
+        lockBoard = true
+        const firstEmoji = deck[firstCard.dataset.index]
+        const secondEmoji = deck[card.dataset.index]
+
+        if (firstEmoji === secondEmoji) {
+          matches++
+          score[`p${currentPlayer}`]++
+          document.getElementById(`score-p${currentPlayer}`).textContent =
+            score[`p${currentPlayer}`]
+
+          firstCard = null
+          lockBoard = false
+
+          if (matches === 6) {
+            if (score.p1 > score.p2) {
+              alert('Ha ganado el jugador 1')
+              incrementMemory('wins')
+            } else if (score.p2 > score.p1) {
+              alert('Ha ganado el jugador 2')
+              incrementMemory('losses')
+            } else {
+              alert('Empate!')
+              incrementMemory('draws')
+            }
+
+            gameReset.reset()
+
+            setTimeout(() => {
+              reset()
+            }, 500)
+          }
+        } else {
+          setTimeout(() => {
+            firstCard.textContent = '?'
+            card.textContent = '?'
+            firstCard.classList.remove('flipped')
+            card.classList.remove('flipped')
+            firstCard = null
+            lockBoard = false
+            currentPlayer = currentPlayer === 1 ? 2 : 1
+            document.getElementById('current-player').textContent =
+              currentPlayer
+          }, 1000)
+        }
+      }
+    }
 
     const cards = document.querySelectorAll('.card')
-    cards.forEach(card => {
-      card.addEventListener('click', handleCardClick);
-    },
-
-  
-  unmount() {
-    console.log('desmontando el juego 2')
+    cards.forEach((card) => {
+      card.addEventListener('click', onCardClick)
+    })
   },
-  reset() {}
+
+  unmount() {
+    const cards = document.querySelectorAll('.card')
+    if (cards && onCardClick) {
+      cards.forEach((card) => {
+        card.removeEventListener('click', onCardClick)
+      })
+    }
+    onCardClick = null
+    contenedor = null
+  },
+
+  reset() {
+    matches = 0
+    firstCard = null
+    lockBoard = false
+    currentPlayer = 1
+    score = { p1: 0, p2: 0 }
+
+    const container = document.querySelector('.game')
+    this.mount(contenedor)
+  }
 }
