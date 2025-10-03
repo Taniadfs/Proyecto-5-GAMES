@@ -1,6 +1,6 @@
 import game1 from './games/game1/tres-en-raya.js'
 import game2 from './games/game2/memory.js'
-import game3 from './games/game3/game3.js'
+import game3 from './games/game3/simonSays.js'
 
 const games = { game1, game2, game3 }
 let currentGame = null
