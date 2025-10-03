@@ -1,0 +1,69 @@
+.simonSays {
+  display: grid;
+  gap: 16px;
+  justify-items: center;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.simonSays p {
+  margin: 3px 0;
+}
+
+.simonSays .board {
+  margin-top: 20px;
+  margin-bottom: 30px;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+  inline-size: min(100%, 600px);
+}
+
+.simonSays .board button {
+  width: 150px;
+  height: 150px;
+  aspect-ratio: 1 / 1;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: transform 0.1s ease-in-out;
+}
+
+.simonSays .boton-rojo {
+  background: #e74c3c;
+}
+
+.simonSays .boton-verde {
+  background: #2ecc71;
+}
+
+.simonSays .boton-azul {
+  background: #3498db;
+}
+
+.simonSays .boton-amarillo {
+  background: #f1c40f;
+}
+
+.simonSays .boton-rojo.activo {
+  background: #ff6b6b;
+  box-shadow: 0 0 20px #e74c3c;
+}
+
+.simonSays .boton-verde.activo {
+  background: #5dfc8d;
+  box-shadow: 0 0 20px #2ecc71;
+}
+
+.simonSays .boton-azul.activo {
+  background: #5dade2;
+  box-shadow: 0 0 20px #3498db;
+}
+
+.simonSays .boton-amarillo.activo {
+  background: #f9e79f;
+  box-shadow: 0 0 20px #f1c40f;
+}
