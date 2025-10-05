@@ -24,9 +24,33 @@ export default {
     <button class="empezar">Empezar</button>
   
     </section>`
+
+    const btnEmpezar = container.querySelector('.empezar')
+    btnEmpezar.addEventListener('click', () => {
+      agregarColorAleatorio()
+      console.log('Secuencia:', secuenciaSimon)
+      console.log('Ronda:', ronda)
+      iluminarBoton('rojo')
+    })
   },
   unmount() {
     console.log('desmontando el juego 3')
   },
   reset() {}
+}
+
+const COLORES = ['rojo', 'verde', 'azul', 'amarillo']
+
+function agregarColorAleatorio() {
+  const colorAleatorio = COLORES[Math.floor(Math.random() * COLORES.length)]
+  secuenciaSimon.push(colorAleatorio)
+  ronda++
+  document.getElementById('ronda').textContent = ronda
+}
+function iluminarBoton(color) {
+  const button = document.querySelector(`[data-color="${color}"]`)
+  button.classList.add('activo')
+  setTimeout(() => {
+    button.classList.remove('activo')
+  }, 300)
 }
