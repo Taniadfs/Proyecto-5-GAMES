@@ -33,10 +33,12 @@ export default {
 
     const btnEmpezar = container.querySelector('.empezar')
     btnEmpezar.addEventListener('click', () => {
-      agregarColorAleatorio()
-      console.log('Secuencia:', secuenciaSimon)
-      console.log('Ronda:', ronda)
-      mostrarSecuencia()
+      if (!juegoActivo) {
+        juegoActivo = true
+        btnEmpezar.disabled = true
+        agregarColorAleatorio()
+        mostrarSecuencia()
+      }
     })
 
     const botones = container.querySelectorAll('.boton')
@@ -83,19 +85,30 @@ function mostrarSecuencia() {
 
 function verificarRespuesta() {
   if (JSON.stringify(clickJugador) === JSON.stringify(secuenciaSimon)) {
+    console.log('¡Correcto! Siguiente ronda')
+    setTimeout(() => {
+      agregarColorAleatorio()
+      mostrarSecuencia()
+    }, 1000)
   } else {
     gameOver()
   }
 }
 function gameOver() {
-  alert('¡Has perdido! Inténtalo de nuevo.')
+  alert(`¡Fin del juego! Llegaste al nivel ${ronda}`)
+
   if (ronda > record) {
     record = ronda
-    localStorage.setItem('simonRecord', record)
+    localStorage.setItem('simonSaysRecord', record)
     document.getElementById('record').textContent = record
   }
+
   secuenciaSimon = []
   clickJugador = []
   ronda = 0
+  juegoActivo = false
   document.getElementById('ronda').textContent = 0
+
+  const btnEmpezar = document.querySelector('.empezar')
+  btnEmpezar.disabled = false
 }
