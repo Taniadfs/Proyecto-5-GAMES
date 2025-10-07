@@ -30,7 +30,18 @@ export default {
       agregarColorAleatorio()
       console.log('Secuencia:', secuenciaSimon)
       console.log('Ronda:', ronda)
-      iluminarBoton('rojo')
+      mostrarSecuencia()
+    })
+
+    const botones = container.querySelectorAll('.boton')
+    botones.forEach((boton) => {
+      boton.addEventListener('click', (e) => {
+        const colorClickeado = e.target.dataset.color
+        clickJugador.push(colorClickeado)
+        if (clickJugador.length === secuenciaSimon.length) {
+          verificarRespuesta()
+        }
+      })
     })
   },
   unmount() {
@@ -52,5 +63,22 @@ function iluminarBoton(color) {
   button.classList.add('activo')
   setTimeout(() => {
     button.classList.remove('activo')
-  }, 300)
+  }, 400)
+}
+
+function mostrarSecuencia() {
+  clickJugador = []
+  secuenciaSimon.forEach((color, index) => {
+    setTimeout(() => {
+      iluminarBoton(color)
+    }, index * 600)
+  })
+}
+
+function verificarRespuesta() {
+  if (JSON.stringify(clickJugador) === JSON.stringify(secuenciaSimon)) {
+    console.log('¡Correcto! Siguiente ronda')
+  } else {
+    console.log('¡Incorrecto! Fin del juego')
+  }
 }
