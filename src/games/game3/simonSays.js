@@ -25,6 +25,12 @@ export default {
   
     </section>`
 
+    const recordGuardado = localStorage.getItem('simonSaysRecord')
+    if (recordGuardado) {
+      record = parseInt(recordGuardado)
+      document.getElementById('record').textContent = record
+    }
+
     const btnEmpezar = container.querySelector('.empezar')
     btnEmpezar.addEventListener('click', () => {
       agregarColorAleatorio()
@@ -77,8 +83,19 @@ function mostrarSecuencia() {
 
 function verificarRespuesta() {
   if (JSON.stringify(clickJugador) === JSON.stringify(secuenciaSimon)) {
-    console.log('¡Correcto! Siguiente ronda')
   } else {
-    console.log('¡Incorrecto! Fin del juego')
+    gameOver()
   }
+}
+function gameOver() {
+  alert('¡Has perdido! Inténtalo de nuevo.')
+  if (ronda > record) {
+    record = ronda
+    localStorage.setItem('simonRecord', record)
+    document.getElementById('record').textContent = record
+  }
+  secuenciaSimon = []
+  clickJugador = []
+  ronda = 0
+  document.getElementById('ronda').textContent = 0
 }
