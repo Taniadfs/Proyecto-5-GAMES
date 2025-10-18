@@ -1,9 +1,25 @@
 .simonSays {
   display: grid;
-  gap: 16px;
+  gap: var(--spacing-md);
   justify-items: center;
   max-width: 800px;
   margin: 0 auto;
+  width: 100%;
+  padding: var(--spacing-sm);
+}
+
+.simonSays h2 {
+  font-size: var(--font-size-xl);
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+  font-weight: 700;
 }
 
 .simonSays p {
@@ -18,18 +34,18 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   width: 100%;
-  max-width: 600px;
-  inline-size: min(100%, 600px);
+  max-width: 500px;
 }
 
 .simonSays .board button {
-  width: 150px;
-  height: 150px;
+  width: 100%;
   aspect-ratio: 1 / 1;
+  max-width: 150px;
   border: none;
-  border-radius: 16px;
+  border-radius: var(--spacing-md);
   cursor: pointer;
   transition: transform 0.1s ease-in-out;
+  justify-self: center;
 }
 
 .simonSays .boton-rojo {
@@ -66,4 +82,52 @@
 .simonSays .boton-amarillo.activo {
   background: #f9e79f;
   box-shadow: 0 0 20px #f1c40f;
+}
+
+.simonSays .empezar {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  color: white;
+  border: none;
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-md);
+}
+
+.simonSays .empezar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+}
+
+.simonSays .empezar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 640px) {
+  .simonSays h2 {
+    font-size: 1.5rem;
+  }
+
+  .simonSays .board {
+    gap: 12px;
+    max-width: 90vw;
+  }
+
+  .simonSays .board button {
+    max-width: 40vw;
+  }
+
+  .simonSays .empezar {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
 }
