@@ -6,9 +6,12 @@ let ronda = 0
 let contenedor = null
 let juegoActivo = false
 let record = 0
+let btnEmpezarListener = null
+let botonesListeners = []
 
 export default {
   mount(container) {
+    contenedor = container
     container.innerHTML = `<section class="simonSays">
     <h2>Simon Says</h2>
     <p>Ronda: <span id="ronda">0</span></p>
@@ -32,30 +35,76 @@ export default {
     }
 
     const btnEmpezar = container.querySelector('.empezar')
-    btnEmpezar.addEventListener('click', () => {
+    btnEmpezarListener = () => {
       if (!juegoActivo) {
         juegoActivo = true
         btnEmpezar.disabled = true
         agregarColorAleatorio()
         mostrarSecuencia()
       }
-    })
+    }
+    btnEmpezar.addEventListener('click', btnEmpezarListener)
 
     const botones = container.querySelectorAll('.boton')
-    botones.forEach((boton) => {
-      boton.addEventListener('click', (e) => {
+    botones.forEach((boton, index) => {
+      const listener = (e) => {
         const colorClickeado = e.target.dataset.color
         clickJugador.push(colorClickeado)
         if (clickJugador.length === secuenciaSimon.length) {
           verificarRespuesta()
         }
-      })
+      }
+      botonesListeners[index] = listener
+      boton.addEventListener('click', listener)
     })
   },
+
   unmount() {
-    console.log('desmontando el juego 3')
+    console.log(
+      '🔴 UNMOUNT LLAMADO - botonesListeners antes:',
+      botonesListeners.length
+    )
+
+    if (contenedor && btnEmpezarListener) {
+      const btnEmpezar = contenedor.querySelector('.empezar')
+      if (btnEmpezar) {
+        btnEmpezar.removeEventListener('click', btnEmpezarListener)
+        console.log('✅ Listener de btnEmpezar eliminado')
+      }
+    }
+
+    if (contenedor && botonesListeners.length > 0) {
+      const botones = contenedor.querySelectorAll('.boton')
+      console.log(
+        '🔴 Intentando eliminar',
+        botonesListeners.length,
+        'listeners de botones'
+      )
+
+      botones.forEach((boton, index) => {
+        if (botonesListeners[index]) {
+          boton.removeEventListener('click', botonesListeners[index])
+          console.log('✅ Listener', index, 'eliminado')
+        }
+      })
+    }
+
+    secuenciaSimon = []
+    clickJugador = []
+    ronda = 0
+    juegoActivo = false
+
+    btnEmpezarListener = null
+    botonesListeners = []
+    console.log(
+      '🔴 UNMOUNT COMPLETADO - botonesListeners después:',
+      botonesListeners.length
+    )
   },
-  reset() {}
+  reset() {
+    this.unmount()
+    this.mount(contenedor)
+  }
 }
 
 const COLORES = ['rojo', 'verde', 'azul', 'amarillo']
@@ -68,10 +117,12 @@ function agregarColorAleatorio() {
 }
 function iluminarBoton(color) {
   const button = document.querySelector(`[data-color="${color}"]`)
-  button.classList.add('activo')
-  setTimeout(() => {
-    button.classList.remove('activo')
-  }, 400)
+  if (button) {
+    button.classList.add('activo')
+    setTimeout(() => {
+      button.classList.remove('activo')
+    }, 400)
+  }
 }
 
 function mostrarSecuencia() {
@@ -109,6 +160,10 @@ function gameOver() {
   juegoActivo = false
   document.getElementById('ronda').textContent = 0
 
-  const btnEmpezar = document.querySelector('.empezar')
-  btnEmpezar.disabled = false
+  if (contenedor) {
+    const btnEmpezar = contenedor.querySelector('.empezar')
+    if (btnEmpezar) {
+      btnEmpezar.disabled = false
+    }
+  }
 }
