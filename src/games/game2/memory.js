@@ -83,10 +83,8 @@ export default {
               incrementMemory('draws')
             }
 
-            gameReset.reset()
-
             setTimeout(() => {
-              reset()
+              this.reset()
             }, 500)
           }
         } else {
@@ -119,17 +117,15 @@ export default {
       })
     }
     onCardClick = null
-    contenedor = null
   },
 
   reset() {
+    this.unmount()
     matches = 0
     firstCard = null
     lockBoard = false
     currentPlayer = 1
     score = { p1: 0, p2: 0 }
-
-    const container = document.querySelector('.game')
     this.mount(contenedor)
   }
 }

@@ -44,8 +44,6 @@ function saveScoreboard(data) {
   localStorage.setItem(KEY, JSON.stringify(normalize(data)))
 }
 
-//API//
-
 //TRES EN RAYA//
 export function getTTT() {
   return loadScoreboard().tictactoe
