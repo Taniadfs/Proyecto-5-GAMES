@@ -1,5 +1,5 @@
 import './memory.css'
-import { getMemory, incrementMemory } from '../../lib/scoreboard.js'
+import { incrementMemory } from '../../lib/scoreboard.js'
 
 let deck = []
 let firstCard = null

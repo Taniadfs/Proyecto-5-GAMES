@@ -1,4 +1,5 @@
 import './simonSays.css'
+import { getSimonSays, setSimonRecord } from '../../lib/scoreboard.js'
 
 let secuenciaSimon = []
 let clickJugador = []
@@ -12,6 +13,7 @@ let botonesListeners = []
 export default {
   mount(container) {
     contenedor = container
+
     container.innerHTML = `<section class="simonSays">
     <h2>Simon Says</h2>
     <p>Ronda: <span id="ronda">0</span></p>
@@ -28,11 +30,9 @@ export default {
   
     </section>`
 
-    const recordGuardado = localStorage.getItem('simonSaysRecord')
-    if (recordGuardado) {
-      record = parseInt(recordGuardado)
-      document.getElementById('record').textContent = record
-    }
+    const stats = getSimonSays()
+    record = stats.record
+    document.getElementById('record').textContent = record
 
     const btnEmpezar = container.querySelector('.empezar')
     btnEmpezarListener = () => {
@@ -60,31 +60,18 @@ export default {
   },
 
   unmount() {
-    console.log(
-      '🔴 UNMOUNT LLAMADO - botonesListeners antes:',
-      botonesListeners.length
-    )
-
     if (contenedor && btnEmpezarListener) {
       const btnEmpezar = contenedor.querySelector('.empezar')
       if (btnEmpezar) {
         btnEmpezar.removeEventListener('click', btnEmpezarListener)
-        console.log('✅ Listener de btnEmpezar eliminado')
       }
     }
 
     if (contenedor && botonesListeners.length > 0) {
       const botones = contenedor.querySelectorAll('.boton')
-      console.log(
-        '🔴 Intentando eliminar',
-        botonesListeners.length,
-        'listeners de botones'
-      )
-
       botones.forEach((boton, index) => {
         if (botonesListeners[index]) {
           boton.removeEventListener('click', botonesListeners[index])
-          console.log('✅ Listener', index, 'eliminado')
         }
       })
     }
@@ -96,11 +83,8 @@ export default {
 
     btnEmpezarListener = null
     botonesListeners = []
-    console.log(
-      '🔴 UNMOUNT COMPLETADO - botonesListeners después:',
-      botonesListeners.length
-    )
   },
+
   reset() {
     this.unmount()
     this.mount(contenedor)
@@ -115,6 +99,7 @@ function agregarColorAleatorio() {
   ronda++
   document.getElementById('ronda').textContent = ronda
 }
+
 function iluminarBoton(color) {
   const button = document.querySelector(`[data-color="${color}"]`)
   if (button) {
@@ -145,12 +130,14 @@ function verificarRespuesta() {
     gameOver()
   }
 }
+
 function gameOver() {
   alert(`¡Fin del juego! Llegaste al nivel ${ronda}`)
 
+  // Guardar récord usando scoreboard
   if (ronda > record) {
+    setSimonRecord(ronda)
     record = ronda
-    localStorage.setItem('simonSaysRecord', record)
     document.getElementById('record').textContent = record
   }
 
