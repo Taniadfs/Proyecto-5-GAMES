@@ -72,13 +72,20 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(3, 1fr);
     gap: 3px;
-    max-width: 100%;
-    padding: 0 var(--spacing-xs);
+    max-width: 90vw;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 10px;
+    box-sizing: border-box;
   }
 
   .memory .card {
     font-size: 1.5rem;
     border-width: 2px;
+    aspect-ratio: 1;
+    width: 100%;
+    height: auto;
+    padding: 0;
   }
 
   .memory .scoreboard {
